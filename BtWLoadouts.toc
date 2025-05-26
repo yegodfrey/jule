@@ -1,0 +1,30 @@
+## Interface: 110005
+## Title: GSets
+## Version: v2.0.0
+## Notes: Unified talent and loadout management system
+## Author: Breen (Modified)
+## SavedVariables: BtWLoadoutsSets, BtWLoadoutsSpecInfo, BtWLoadoutsRoleInfo, BtWLoadoutsEssenceInfo, BtWLoadoutsCharacterInfo, BtWLoadoutsHelpTipFlags, BtWLoadoutsSettings, BtWLoadoutsTraitsInfo, BtWLoadoutsFrameSettings
+## SavedVariablesPerCharacter: BtWLoadoutsCollapsed, BtWLoadoutsCategories, BtWLoadoutsFilters
+## OptionalDeps: OPie, Adibags, Bagnon
+## X-Curse-Project-ID: 336400
+## X-WoWI-ID: 25156
+## X-Wago-ID: J96EOYGg
+
+Localizations.lua
+Localizations.zhCN.lua
+
+GSets_Utils.lua
+GSets_UI.lua
+Instances.lua
+Filters.lua
+Sets.lua
+
+BtWLoadouts.xml
+
+Loadouts.xml
+GSets_Talents.xml
+
+ActionBars.xml
+Conditions.xml
+
+Events.lua

@@ -1,0 +1,191 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+	<Script file="GSets_Talents.lua"/>
+
+	<!-- Talent Type Dropdown Template -->
+	<Frame name="BtWLoadoutsTalentTypeDropDownTemplate" mixin="BtWLoadoutsTalentTypeDropDownMixin" inherits="UIDropDownMenuTemplate" enableMouse="true" virtual="true">
+		<Scripts>
+			<OnShow method="OnShow"/>
+		</Scripts>
+	</Frame>
+
+	<!-- Unified Talents Frame -->
+    <Frame name="$parentUnifiedTalents" parentKey="UnifiedTalents" mixin="BtWLoadoutsUnifiedTalentsMixin" inherits="BtWLoadoutsTabFrameTemplate">
+        <KeyValues>
+            <KeyValue key="segment" value="talents" type="string"/>
+            <KeyValue key="name" value="GSETS_TALENTS" type="global"/>
+        </KeyValues>
+        <Frames>
+            <Frame parentKey="Inset" useParentLevel="true" inherits="InsetFrameTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="-4" y="-31" />
+                    <Anchor point="BOTTOMRIGHT" x="4" y="-2" />
+                </Anchors>
+            </Frame>
+            
+            <!-- Talent Type Selector -->
+            <Frame name="$parentTalentTypeDropDown" parentKey="TalentTypeDropDown" inherits="BtWLoadoutsTalentTypeDropDownTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="0" y="0"/>
+                </Anchors>
+            </Frame>
+            
+            <!-- Spec Dropdown -->
+            <Frame name="$parentSpecDropDown" parentKey="SpecDropDown" inherits="BtWLoadoutsSpecDropDownTemplate">
+                <Anchors>
+                    <Anchor point="LEFT" relativeKey="$parent.TalentTypeDropDown" relativePoint="RIGHT" x="10" y="0"/>
+                </Anchors>
+            </Frame>
+            
+            <!-- Set Name Input -->
+            <EditBox name="$parentName" letters="50" parentKey="Name" autoFocus="false" inherits="InputBoxTemplate">
+                <Size x="0" y="22"/>
+                <Anchors>
+                    <Anchor point="LEFT" relativeKey="$parent.SpecDropDown" relativePoint="RIGHT" x="10" y="2"/>
+					<Anchor point="RIGHT" x="-30" y="0"/>
+                </Anchors>
+                <Scripts>
+                    <OnTextChanged>
+                        self:GetParent():UpdateSetName(self:GetText())
+                    </OnTextChanged>
+                    <OnEnterPressed function="EditBox_ClearFocus"/>
+                </Scripts>
+            </EditBox>
+            
+            <!-- Restrictions Button -->
+			<Frame parentKey="RestrictionsDropDown" inherits="BtWLoadoutsRestrictionsDropDownTemplate"/>
+			<DropDownToggleButton parentKey="RestrictionsButton">
+				<Size x="22" y="22"/>
+				<Anchors>
+					<Anchor point="LEFT" relativeKey="$parent.Name" relativePoint="RIGHT" x="4" y="0"/>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<Texture file="Interface\WorldMap\GEAR_64GREY" alpha="0.5" parentKey="texture"/>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnEnter>
+						self.texture:SetAlpha(1.0);
+						GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
+						GameTooltip:SetText(BTWLOADOUTS_RESTRICTIONS);
+						GameTooltip:Show();
+					</OnEnter>
+					<OnLeave>
+						self.texture:SetAlpha(0.5);
+						GameTooltip:Hide();
+					</OnLeave>
+					<OnClick>
+						local parent = self:GetParent();
+						ToggleDropDownMenu(1, nil, parent.RestrictionsDropDown, self, 0, 0);
+					</OnClick>
+				</Scripts>
+			</DropDownToggleButton>
+            
+            <!-- Talent Display Area -->
+            <ScrollFrame name="$parentScrollFrame" parentKey="ScrollFrame" inherits="UIPanelScrollFrameTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeKey="$parent.Inset" x="10" y="-35"/>
+                    <Anchor point="BOTTOMRIGHT" relativeKey="$parent.Inset" x="-30" y="10"/>
+                </Anchors>
+                <ScrollChild>
+                    <Frame name="$parentScrollChild" parentKey="ScrollChild">
+                        <Size x="1" y="1"/>
+        <Frames>
+            <!-- DF Talents Container -->
+            <Frame name="$parentDFTalents" parentKey="DFTalents" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="5" y="-5"/>
+                    <Anchor point="BOTTOMRIGHT" x="-5" y="5"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture parentKey="Background" setAllPoints="true">
+                            <Color r="0.1" g="0.1" b="0.1" a="0.5"/>
+                        </Texture>
+                    </Layer>
+                </Layers>
+                <Frames>
+                    <!-- Add DF talent UI elements here -->
+                </Frames>
+            </Frame>
+
+            <!-- Hero Talents Container -->
+            <Frame name="$parentHeroTalents" parentKey="HeroTalents" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="5" y="-5"/>
+                    <Anchor point="BOTTOMRIGHT" x="-5" y="5"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture parentKey="Background" setAllPoints="true">
+                            <Color r="0.1" g="0.1" b="0.1" a="0.5"/>
+                        </Texture>
+                    </Layer>
+                </Layers>
+                <Frames>
+                    <!-- Add hero talent UI elements here -->
+                </Frames>
+            </Frame>
+
+            <!-- PvP Talents Container -->
+            <Frame name="$parentPvPTalents" parentKey="PvPTalents" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="5" y="-5"/>
+                    <Anchor point="BOTTOMRIGHT" x="-5" y="5"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture parentKey="Background" setAllPoints="true">
+                            <Color r="0.1" g="0.1" b="0.1" a="0.5"/>
+                        </Texture>
+                    </Layer>
+                </Layers>
+                <Frames>
+                    <!-- Add PvP talent UI elements here -->
+                </Frames>
+            </Frame>
+        </Frames>
+                    </Frame>
+                </ScrollChild>
+            </ScrollFrame>
+            
+            <!-- Action Buttons -->
+            <Button name="$parentSaveButton" parentKey="SaveButton" inherits="UIPanelButtonTemplate" text="SAVE">
+                <Size x="80" y="22"/>
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT" relativeKey="$parent.Inset" x="10" y="-25"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():SaveCurrentSet()
+                    </OnClick>
+                </Scripts>
+            </Button>
+            
+            <Button name="$parentActivateButton" parentKey="ActivateButton" inherits="UIPanelButtonTemplate" text="ACTIVATE">
+                <Size x="80" y="22"/>
+                <Anchors>
+                    <Anchor point="LEFT" relativeKey="$parent.SaveButton" relativePoint="RIGHT" x="5" y="0"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():ActivateSelectedSet()
+                    </OnClick>
+                </Scripts>
+            </Button>
+            
+            <Button name="$parentDeleteButton" parentKey="DeleteButton" inherits="UIPanelButtonTemplate" text="DELETE">
+                <Size x="80" y="22"/>
+                <Anchors>
+                    <Anchor point="LEFT" relativeKey="$parent.ActivateButton" relativePoint="RIGHT" x="5" y="0"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():DeleteSelectedSet()
+                    </OnClick>
+                </Scripts>
+            </Button>
+        </Frames>
+    </Frame>
+</Ui>
